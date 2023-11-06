@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, flash, redirect, url_for
 from flask_migrate import Migrate
 from models import *
 from flask_cors import CORS
@@ -48,6 +48,8 @@ def signup():
     data = request.get_json()
     new_user = User(username=data['username'])
     new_user.password_hash = data['password']
+    new_user.email_address = data['email_address']
+    new_user.full_name = data['full_name']
     db.session.add(new_user)
     db.session.commit()
 
@@ -91,6 +93,22 @@ def logout():
     return {'message': 'logged out'}, 200
 
 
+@app.route('/change-password', methods=['POST'])
+def change_password():
+    new_password = request.form.get('new_password')
+    confirm_password = request.form.get('confirm_password')
+
+    if new_password != confirm_password:
+        flash("New password and confirm password do not match", "error")
+    else:
+        # Update the user's password in the database (assuming you have a User model)
+        current_user = User.query.filter_by(username=session.get('username')).first()
+        if current_user:
+            current_user.password_hash = new_password  # This will automatically hash and store the new password
+            db.session.commit()
+
+            flash("Password reset successful", "success")
+            return redirect(url_for('login'))
 
 
 if __name__ == '__main__':
