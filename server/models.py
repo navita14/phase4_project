@@ -13,6 +13,7 @@ metadata = MetaData(naming_convention={
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 
+
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
@@ -25,7 +26,7 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String)
     permission_level = db.Column(db.Integer)
 
-    tickets = db.relationship('Ticket', back_populates= 'user')
+    posts = db.relationship('Post', back_populates= 'user')
 
     def __repr__(self):
         return f'<User {self.id}, {self.email_address}, {self.full_name}>'
@@ -42,3 +43,11 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8')) # check if a password matches something in our db
 
+
+
+class Dashboard(db.Model, SerializerMixin):
+    pass
+
+
+class Post(db.Model, SerializerMixin):
+    pass
