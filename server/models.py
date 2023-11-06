@@ -27,6 +27,7 @@ class User(db.Model, SerializerMixin):
     permission_level = db.Column(db.Integer)
 
     posts = db.relationship('Post', back_populates= 'user')
+    dashboard = db.relationship('Dashboard', back_populates= 'user')
 
     def __repr__(self):
         return f'<User {self.id}, {self.email_address}, {self.full_name}>'
@@ -44,10 +45,41 @@ class User(db.Model, SerializerMixin):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8')) # check if a password matches something in our db
 
 
+    @validates('permission_level')
+    def validate_permission_level(self, key, value):
+        # Define the acceptable permission levels
+        acceptable_levels = [1, 2, 3]
+
+        if value in acceptable_levels:
+            return value
+        else:
+            raise ValueError("Invalid permission level. Choose from 1, 2, or 3.")
+
+
+
 
 class Dashboard(db.Model, SerializerMixin):
-    pass
+    __tablename__ = 'dashboards'
+
+    id = db.Column(db.Integer, primary_key = True)
+
+    
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+
+    user = db.relationship('User', back_populates= 'dashboard')
+
 
 
 class Post(db.Model, SerializerMixin):
-    pass
+    __tablename__ = 'posts'
+
+    id = db.Column(db.Integer, primary_key = True)
+    videos = db.Column(db.String)  # Assuming you want to store video URLs or file paths
+    pictures = db.Column(db.String)  # Assuming you want to store picture URLs or file paths
+    likes = db.Column(db.Integer, default=0)  # Number of likes for the post
+    comments = db.Column(db.String)  # Assuming you want to store comments or content as text
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    user = db.relationship('User', back_populates= 'posts')
