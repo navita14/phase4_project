@@ -27,7 +27,7 @@ class User(db.Model, SerializerMixin):
     permission_level = db.Column(db.Integer)
 
     posts = db.relationship('Post', back_populates= 'user')
-    dashboard = db.relationship('Dashboard', back_populates= 'user')
+    # dashboard = db.relationship('Dashboard', back_populates= 'user')
 
     def __repr__(self):
         return f'<User {self.id}, {self.email_address}, {self.full_name}>'
@@ -58,28 +58,33 @@ class User(db.Model, SerializerMixin):
 
 
 
-class Dashboard(db.Model, SerializerMixin):
-    __tablename__ = 'dashboards'
-
-    id = db.Column(db.Integer, primary_key = True)
-
-    
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-
-    user = db.relationship('User', back_populates= 'dashboard')
-
-
-
 class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
 
     id = db.Column(db.Integer, primary_key = True)
-    videos = db.Column(db.String)  # Assuming you want to store video URLs or file paths
-    pictures = db.Column(db.String)  # Assuming you want to store picture URLs or file paths
+    content = db.Column(db.String)  # Assuming you want to store video URLs or file paths
+    description = db.Column(db.String)
     likes = db.Column(db.Integer, default=0)  # Number of likes for the post
     comments = db.Column(db.String)  # Assuming you want to store comments or content as text
+    created_at = db.Column(db.DateTime, server_default = db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate = db.func.now())
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     user = db.relationship('User', back_populates= 'posts')
+
+
+
+
+
+# class Dashboard(db.Model, SerializerMixin):
+#     __tablename__ = 'dashboards'
+
+#     id = db.Column(db.Integer, primary_key = True)
+
+
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+
+#     user = db.relationship('User', back_populates= 'dashboard')
+
