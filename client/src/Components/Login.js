@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 function Login() {
-  const history = useNavigate();
-  const [email, setEmail] = useState('');
+  // const history = useNavigate();
+  const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
   function handleLogin(e) {
@@ -11,12 +11,12 @@ function Login() {
 
     // Create an object with the user's email and password
     const userCredentials = {
-      username: email, // Use 'username' based on your backend's expectation
+      username: username, // Use 'username' based on your backend's expectation
       password: password,
     };
 
     // Send a POST request to your server
-    fetch('http://localhost:5000/login', {
+    fetch('http://127.0.0.1:5000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -34,17 +34,19 @@ function Login() {
         // Check the 'message' property in the server response
         if (data.message === 'login success') {
           // Assuming 'permission_level' is obtained from the server response
-          const permission_level = data.permission_level;
-          if (permission_level === 1) {
-            history.push('/admin_dashboard');
-          } else if (permission_level === 2) {
-            history.push('/manager_dashboard');
-          } else if (permission_level === 3) {
-            history.push('/worker_dashboard');
-          } else {
-            // Handle invalid login or unauthorized access
-            console.log('Unauthorized access');
-          }
+          // const permission_level = data.permission_level;
+          // if (permission_level === 1) {
+          //   history.push('/admin_dashboard');
+          // } else if (permission_level === 2) {
+          //   history.push('/manager_dashboard');
+          // } else if (permission_level === 3) {
+          //   history.push('/worker_dashboard');
+          // } else {
+          //   // Handle invalid login or unauthorized access
+          //   console.log('Unauthorized access');
+          // }
+
+          console.log('yay')
         } else {
           // Handle login failure
           console.log('Login failed');
@@ -55,6 +57,9 @@ function Login() {
         console.error(error);
       });
   }
+    // if (!username){
+    //   return <p>Loading ...</p>
+    // }
 
   return (
     <div>
@@ -67,14 +72,14 @@ function Login() {
           />
           <h4 className="text-center">Login</h4>
           <div className="form-group">
-            <label htmlFor="email">Email Address:</label>
+            <label htmlFor="username">Username:</label>
             <input
-              type="email"
+              type="username"
               className="form-control"
-              id="email"
-              name="email"
-              placeholder="Enter Email"
-              onChange={(e) => setEmail(e.target.value)}
+              id="username"
+              name="username"
+              placeholder="Enter Username"
+              onChange={(e) => setUserName(e.target.value)}
             />
           </div>
 

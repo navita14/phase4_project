@@ -25,29 +25,29 @@ migrate = Migrate(app, db)
 excluded_endpoints = ['login', 'signup', 'check_session', 'root']
 
 
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    permission_level = current_user.permission_level
-    return jsonify({'permission_level': permission_level})
+# @app.route('/dashboard')
+# @login_required
+# def dashboard():
+#     permission_level = current_user.permission_level
+#     return jsonify({'permission_level': permission_level})
 
 
-@app.before_request
-def check_logged_in():
-    if request.endpoint not in excluded_endpoints:
-        user_id = session.get('user_id')
-        user = User.query.filter(User.id == user_id).first()
+# @app.before_request
+# def check_logged_in():
+#     if request.endpoint not in excluded_endpoints:
+#         user_id = session.get('user_id')
+#         user = User.query.filter(User.id == user_id).first()
 
-        if not user:
-            # invalid cookie
-            return {'message': 'invalid session'}, 401
+#         if not user:
+#             # invalid cookie
+#             return {'message': 'invalid session'}, 401
 
 
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.get_json()
     new_user = User(username=data['username'])
-    new_user.password_hash = data['password']
+    new_user.password_hash = data['_password_hash']
     new_user.email_address = data['email_address']
     new_user.full_name = data['full_name']
     db.session.add(new_user)
@@ -110,6 +110,12 @@ def change_password():
             flash("Password reset successful", "success")
     return redirect(url_for('login'))
 
+
+@app.route('/users', methods=['GET'])
+def users():
+    users = User.query.all()
+    body = [user.to_dict() for user in users]
+    return body, 200
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

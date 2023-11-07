@@ -17,7 +17,7 @@ bcrypt = Bcrypt()
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-tickets.user',)
+    serialize_rules = ('-posts.user',)
 
     id = db.Column(db.Integer, primary_key = True)
     email_address = db.Column(db.String, unique = True, nullable = False)
@@ -60,6 +60,8 @@ class User(db.Model, SerializerMixin):
 
 class Post(db.Model, SerializerMixin):
     __tablename__ = 'posts'
+
+    serialize_rules = ('-user.posts',)
 
     id = db.Column(db.Integer, primary_key = True)
     content = db.Column(db.String)  # Assuming you want to store video URLs or file paths

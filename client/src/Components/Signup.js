@@ -7,7 +7,8 @@ function SignUp() {
     username: '',
     email_address: '',
     full_name: '',
-    _password_hash: ''
+    _password_hash: '',
+    confirm_password: ''
   });
 
   function handleSubmit(event) {
@@ -19,7 +20,7 @@ function SignUp() {
       return;
     }
 
-    fetch("http://localhost:5000/signup", {
+    fetch("http://127.0.0.1:5000/signup", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -34,7 +35,8 @@ function SignUp() {
           username: '',
           email_address: '',
           full_name: '',
-          _password_hash: ''
+          _password_hash: '',
+          confirm_password: ''
         });
       })
       .catch(error => {
@@ -49,6 +51,11 @@ function SignUp() {
       [name]: value
     });
   }
+
+    if (!user){
+      return <p>Loading ...</p>
+    }
+
 
   return (
     <div>
@@ -104,7 +111,7 @@ function SignUp() {
               type="password"
               className="form-control"
               id="password1"
-              name="password1"
+              name="_password_hash"
               placeholder="Enter Password"
               value={formData._password_hash}
               onChange={handleInputChange}
@@ -117,9 +124,9 @@ function SignUp() {
               type="password"
               className="form-control"
               id="password2"
-              name="password2"
+              name="confirm_password"
               placeholder="Confirm Password"
-              // value={formData.}
+              value={formData.confirm_password}
               onChange={handleInputChange}
             />
           </div>
