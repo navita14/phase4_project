@@ -33,15 +33,13 @@ function Login() {
       .then((data) => {
         // Check the 'message' property in the server response
         if (data.message === 'login success') {
-          // Assuming 'permissionLevel' is obtained from the server response
-          const permissionLevel = data.permissionLevel;
-          if (permissionLevel === 'admin') {
+          // Assuming 'permission_level' is obtained from the server response
+          const permission_level = data.permission_level;
+          if (permission_level === 1) {
             history.push('/admin_dashboard');
-          } else if (permissionLevel === 'manager') {
+          } else if (permission_level === 2) {
             history.push('/manager_dashboard');
-          } else if (permissionLevel === 'developer') {
-            history.push('/developer_dashboard');
-          } else if (permissionLevel === 'worker') {
+          } else if (permission_level === 3) {
             history.push('/worker_dashboard');
           } else {
             // Handle invalid login or unauthorized access
@@ -63,7 +61,7 @@ function Login() {
       <form onSubmit={handleLogin}>
         <div className="card mx-auto my-5" style={{ width: '25rem' }}>
           <img
-            src="https://blog.trello.com/hubfs/marker_trello_bug_tracking.png"
+            src="https://www.myfitnesschat.com/wp-content/uploads/2019/03/pexels-photo-1509428.jpeg"
             className="card-img-top"
             alt="..."
           />

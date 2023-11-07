@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function SignUp() {
   const [email, setEmail] = useState('');
@@ -49,7 +50,7 @@ function SignUp() {
       <form onSubmit={handleSignUp}>
         <div className="card mx-auto my-5" style={{ width: '25rem' }}>
           <img
-            src="https://blog.trello.com/hubfs/marker_trello_bug_tracking.png"
+            src="https://www.myfitnesschat.com/wp-content/uploads/2019/03/pexels-photo-1509428.jpeg"
             className="card-img-top"
             alt="..."
           />
@@ -106,6 +107,9 @@ function SignUp() {
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
+          <p>
+            Have an account? <Link to="/login">Login</Link>
+          </p>
         </div>
       </form>
     </div>
