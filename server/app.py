@@ -108,7 +108,7 @@ def change_password():
             db.session.commit()
 
             flash("Password reset successful", "success")
-            return redirect(url_for('login'))
+    return redirect(url_for('login'))
 
 
 if __name__ == '__main__':
