@@ -12,6 +12,7 @@ flask-restful = "*"
 flask-bcrypt = "*"
 flask-cors = "*"
 flask-login = "*"
+werkzeug = "*"
 
 [dev-packages]
 

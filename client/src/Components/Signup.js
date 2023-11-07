@@ -2,52 +2,57 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function SignUp() {
-  const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [password1, setPassword1] = useState('');
-  const [password2, setPassword2] = useState('');
+  const [user, setUser] = useState([])
+  const [formData, setFormData] = useState({
+    username: '',
+    email_address: '',
+    full_name: '',
+    _password_hash: ''
+  });
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
+  function handleSubmit(event) {
+    event.preventDefault();
 
     // Check if the passwords match
-    if (password1 !== password2) {
+    if (formData.password1 !== formData.password2) {
       alert('Passwords do not match');
       return;
     }
 
-    const userData = {
-      username: email,
-      password: password1,
-      firstName,
-    };
-
-    fetch('http://localhost:5000/signup', {
+    fetch("http://localhost:5000/signup", {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(formData)
     })
-      .then((response) => {
-        if (response.ok) {
-          // Handle successful sign-up here, e.g., redirect to login page
-          console.log('User registered successfully');
-          // You can add code to redirect to the login page
-        } else {
-          // Handle sign-up failure here
-          console.error('User registration failed');
-        }
+      .then(resp => resp.json())
+      .then(data => {
+        setUser(prevUsers => [...prevUsers,data]);
+        // Reset the form data after a successful response
+        setFormData({
+          username: '',
+          email_address: '',
+          full_name: '',
+          _password_hash: ''
+        });
       })
-      .catch((error) => {
-        // Handle network errors here
+      .catch(error => {
         console.error('Error:', error);
       });
-  };
+  }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  }
 
   return (
     <div>
-      <form onSubmit={handleSignUp}>
+      <form onSubmit={handleSubmit}>
         <div className="card mx-auto my-5" style={{ width: '25rem' }}>
           <img
             src="https://www.myfitnesschat.com/wp-content/uploads/2019/03/pexels-photo-1509428.jpeg"
@@ -56,26 +61,40 @@ function SignUp() {
           />
           <h4 className="text-center">Sign Up</h4>
           <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="username"
+              className="form-control"
+              id="username"
+              name="username"
+              placeholder="Create Username"
+              value={formData.username}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-group">
             <label htmlFor="email">Email Address:</label>
             <input
               type="email"
               className="form-control"
               id="email"
-              name="email"
+              name="email_address"
               placeholder="Enter Email"
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email_address}
+              onChange={handleInputChange}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="firstName">First Name:</label>
+            <label htmlFor="fullName">First Name:</label>
             <input
               type="text"
               className="form-control"
-              id="firstName"
-              name="firstName"
-              placeholder="Enter First Name"
-              onChange={(e) => setFirstName(e.target.value)}
+              id="full_name"
+              name="full_name"
+              placeholder="Enter Full Name"
+              value={formData.full_name}
+              onChange={handleInputChange}
             />
           </div>
 
@@ -87,7 +106,8 @@ function SignUp() {
               id="password1"
               name="password1"
               placeholder="Enter Password"
-              onChange={(e) => setPassword1(e.target.value)}
+              value={formData._password_hash}
+              onChange={handleInputChange}
             />
           </div>
 
@@ -99,7 +119,8 @@ function SignUp() {
               id="password2"
               name="password2"
               placeholder="Confirm Password"
-              onChange={(e) => setPassword2(e.target.value)}
+              // value={formData.}
+              onChange={handleInputChange}
             />
           </div>
 
