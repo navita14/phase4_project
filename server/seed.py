@@ -3,80 +3,86 @@ from models import User, Post
 
 def clear_database():
     with app.app_context():
-        ## Delete existing records
+        ## Delete all the existing records - Yes Nav we need this lol -- Dommo
         User.query.delete()
         Post.query.delete()
         db.session.commit()
 
-## Dummy user data -- This should suffice to set up some users we can play around with
-dummy_users = [
-    {
-        "email_address": "BossyNav@flatironschool.com",
-        "username": "BossyNav",
-        "full_name": "Navita",
-        "_password_hash": "hashed_password_for_bossynav",
-        "permission_level": 1,
-    },
-    {
-        "email_address": "Dommo@flatironschool.com",
-        "username": "Young_Dracula",
-        "full_name": "Dominick Addison",
-        "_password_hash": "hashed_password_for_dommo",
-        "permission_level": 2,
-    },
-    {
-        "email_address": "BrianTheStallion@flatironschool.com",
-        "username": "BrianTheStallion",
-        "full_name": "Brian",
-        "_password_hash": "hashed_password_for_brianthestallion",
-        "permission_level": 1,
-    },
-    {
-        "email_address": "FurFoxFan@flatironschool.com",
-        "username": "SmashLucas_Teh_FurFoxFan",
-        "full_name": "Lucas Van der Heyde",
-        "_password_hash": "hashed_password_for_smashlucas",
-        "permission_level": 2,
-    },
-    {
-        "email_address": "HentaiLuvr@flatironschool.com",
-        "username": "HentaiLuvr",
-        "full_name": "Kerem Deen",
-        "_password_hash": "hashed_password_for_hentailuvr",
-        "permission_level": 1,
-    },
-    {
-        "email_address": "EpsteinsHomey@flatironschool.com",
-        "username": "EpsteinsHomey",
-        "full_name": "Juan Larco",
-        "_password_hash": "hashed_password_for_epsteinshomey",
-        "permission_level": 1,
-    },
-]
-
-## Dummy post data -- This should also suffice for our post setup. Not sure how we're fully implementing yet
-dummy_posts = [
-    {
-        "content": "Sample content for post 1",
-        "description": "Description 1",
-        "likes": 10,
-        "comments": "Comment 1 for post 1",
-        "user_id": 1,  ## User 1's ID
-    },
-    ## If you have anything else to add, do it here!
-]
-
 def populate_database():
     with app.app_context():
-        for user_data in dummy_users:
-            user = User(**user_data)
+        ## Dummy user data - It's all bullshit we'll change in full version
+        dummy_users = [
+            User(
+                email_address="BossyNav@flatironschool.com",
+                username="BossyNav",
+                full_name="Navita Ramasar",
+                _password_hash="abc123",
+                permission_level=1,
+            ),
+            User(
+                email_address="Dommo@flatironschool.com",
+                username="Young_Drac",
+                full_name="Dominick Addison",
+                _password_hash="abc123",
+                permission_level=2,
+            ),
+            User(
+                email_address="BrianTheStallion@flatironschool.com",
+                username="BrianTheStallion",
+                full_name="Brian Jara",
+                _password_hash="abc123",
+                permission_level=1,
+            ),
+            User(
+                email_address="FurFoxFan@flatironschool.com",
+                username="SmashLucas_Teh_FurFoxFan",
+                full_name="Lucas Furfan der Heyde",
+                _password_hash="hashed_password_for_smashlucas",
+                permission_level=2,
+            ),
+            User(
+                email_address="HentaiLuvr@flatironschool.com",
+                username="HentaiLuvr",
+                full_name="Kerem Deen",
+                _password_hash="hashed_password_for_hentailuvr",
+                permission_level=1,
+            ),
+            User(
+                email_address="EpsteinsHomey@flatironschool.com",
+                username="EpsteinsHomey",
+                full_name="Juan Larco",
+                _password_hash="hashed_password_for_epsteinshomey",
+                permission_level=1,
+            ),
+                        User(
+                email_address="Hanan@flatironschool.com",
+                username="H as in Harry, A as in Apple, N as in Nancy, A as in Apple, N as in Nancy",
+                full_name="Hanan Hammouda",
+                _password_hash="hashed_password_for_Hanan",
+                permission_level=3,
+            ),
+        ]
+
+        ## Dummy post data
+        dummy_posts = [
+            Post(
+                content="JPG URL", ## I added a folder called post_data and added an image. We'll have to think of a way to link this. Json is NOT the way to go.
+                description="My gang, Flatiron REPRESENT!",
+                likes=10,
+                comments="Comment 1 for post 1",
+                user_id=2,  ## User 2's ID -- This should link to me -- Dommo
+            ),
+            ## If you have anything else to add, do it here!
+        ]
+
+        for user in dummy_users:
             db.session.add(user)
-        for post_data in dummy_posts:
-            post = Post(**post_data)
+
+        for post in dummy_posts:
             db.session.add(post)
 
         db.session.commit()
 
 if __name__ == "__main__":
-    clear_database()  ## Clear existing data -- Super Important so we don't keep this stuff
+    clear_database()  ## Clear existing data -- If it doesn't work after this ask Ben lol
     populate_database()
