@@ -63,18 +63,8 @@ function ImageUploader() {
         value={likes}
         onChange={(e) => setLikes(e.target.value)}
       />
-        <div className="container">
-          <div className="row">
-            {posts.map((post, index) => (
-              <div key={index} className="col-md-4">
-                <PostCard post={post} />
-              </div>
-            ))}
-          </div>
-        </div>
-    </div>
-    
+   /</div> 
   );
-
+  
 
 export default ImageUploader;
