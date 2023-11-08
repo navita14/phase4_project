@@ -1,61 +1,55 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState , useEffect } from 'react';
+import { useHistory, Link, Redirect, Route, useNavigate} from 'react-router-dom';
 
 function Login() {
-  // const history = useNavigate();
+  const history = useNavigate();
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  
 
   function handleLogin(e) {
     e.preventDefault(); // Prevent the default form submission
+    console.log(username, password)
 
     // Create an object with the user's email and password
     const userCredentials = {
       username: username, // Use 'username' based on your backend's expectation
-      password: password,
+      _password_hash: password,
     };
+
+    console.log(userCredentials)
 
     // Send a POST request to your server
     fetch('http://127.0.0.1:5000/login', {
       method: 'POST',
       headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userCredentials),
     })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Login failed');
-        }
-      })
-      .then((data) => {
-        // Check the 'message' property in the server response
-        if (data.message === 'login success') {
-          // Assuming 'permission_level' is obtained from the server response
-          // const permission_level = data.permission_level;
-          // if (permission_level === 1) {
-          //   history.push('/admin_dashboard');
-          // } else if (permission_level === 2) {
-          //   history.push('/manager_dashboard');
-          // } else if (permission_level === 3) {
-          //   history.push('/worker_dashboard');
-          // } else {
-          //   // Handle invalid login or unauthorized access
-          //   console.log('Unauthorized access');
-          // }
-
-          console.log('yay')
-        } else {
-          // Handle login failure
-          console.log('Login failed');
-        }
-      })
-      .catch((error) => {
-        // Handle login failure or errors
-        console.error(error);
-      });
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Login failed 1');
+      }
+    })
+    .then((data) => {
+      // Check the 'message' property in the server response
+      if (data.message === 'login success') {
+        // <Redirect to='/dashboard'/>
+        // history("/dashboard");
+        console.log('yay')
+      } else {
+        // Handle login failure
+        console.log('Login failed 2');
+      }
+    })
+    .catch((error) => {
+      // Handle login failure or errors
+      console.error(error);
+    });
   }
     // if (!username){
     //   return <p>Loading ...</p>

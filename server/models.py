@@ -24,7 +24,7 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String, nullable = False)
     full_name = db.Column(db.String)
     _password_hash = db.Column(db.String)
-    permission_level = db.Column(db.Integer)
+    # permission_level = db.Column(db.Integer)
 
     posts = db.relationship('Post', back_populates= 'user')
     # dashboard = db.relationship('Dashboard', back_populates= 'user')
@@ -45,15 +45,15 @@ class User(db.Model, SerializerMixin):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8')) # check if a password matches something in our db
 
 
-    @validates('permission_level')
-    def validate_permission_level(self, key, value):
-        # Define the acceptable permission levels
-        acceptable_levels = [1, 2, 3]
+    # @validates('permission_level')
+    # def validate_permission_level(self, key, value):
+    #     # Define the acceptable permission levels
+    #     acceptable_levels = [1, 2, 3]
 
-        if value in acceptable_levels:
-            return value
-        else:
-            raise ValueError("Invalid permission level. Choose from 1, 2, or 3.")
+    #     if value in acceptable_levels:
+    #         return value
+    #     else:
+    #         raise ValueError("Invalid permission level. Choose from 1, 2, or 3.")
 
 
 
