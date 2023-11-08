@@ -66,7 +66,7 @@ def populate_database():
         ## Dummy post data
         dummy_posts = [
             Post(
-                content="JPG URL", ## I added a folder called post_data and added an image. We'll have to think of a way to link this. Json is NOT the way to go.
+                content="../client/public/post_data/Pictures/The_Gang.jpg", ## I added a folder called post_data and added an image. We'll have to think of a way to link this. Json is NOT the way to go.
                 description="My gang, Flatiron REPRESENT!",
                 likes=10,
                 comments="Comment 1 for post 1",

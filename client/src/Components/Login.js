@@ -39,7 +39,7 @@ function Login() {
       // Check the 'message' property in the server response
       if (data.message === 'login success') {
         // <Redirect to='/dashboard'/>
-        // history("/dashboard");
+        history("/dashboard");
         console.log('yay')
       } else {
         // Handle login failure
