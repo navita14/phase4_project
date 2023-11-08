@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { useHistory, Link,} from 'react-router-dom';
+import { useState , useEffect } from 'react';
+import { useHistory, Link, Redirect, Route, useNavigate} from 'react-router-dom';
 
 function Login() {
-  // const history = useNavigate();
+  const history = useNavigate();
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const history = useHistory();
+  
 
   function handleLogin(e) {
     e.preventDefault(); // Prevent the default form submission
@@ -39,7 +39,7 @@ function Login() {
       // Check the 'message' property in the server response
       if (data.message === 'login success') {
         // <Redirect to='/dashboard'/>
-        history.push('/dashboard')
+        // history("/dashboard");
         console.log('yay')
       } else {
         // Handle login failure
