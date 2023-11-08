@@ -1,5 +1,10 @@
+import Navbar from "./Navbar";
+
 export default function Dashboard() {
     return (
-        <h1>Dashboard</h1>
+        <div>
+            <Navbar />
+            <h1>Hello</h1>
+        </div>
     )
 }

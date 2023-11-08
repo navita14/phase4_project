@@ -1,5 +1,5 @@
-import { useState , useEffect } from 'react';
-import { useHistory, Link, Redirect, Route, useNavigate} from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate} from 'react-router-dom';
 
 function Login() {
   const history = useNavigate();
@@ -38,12 +38,10 @@ function Login() {
     .then((data) => {
       // Check the 'message' property in the server response
       if (data.message === 'login success') {
-        // <Redirect to='/dashboard'/>
-        // history("/dashboard");
-        console.log('yay')
+        history("/dashboard");
       } else {
         // Handle login failure
-        console.log('Login failed 2');
+        console.log('Login failed');
       }
     })
     .catch((error) => {

@@ -87,12 +87,6 @@ excluded_endpoints = ['login', 'signup', 'check_session', 'root']
 #     # valid cookie
 #     return {'message': 'valid session'}, 200
 
-# @app.route('/logout', methods=['DELETE'])
-# def logout():
-#     # delete cookie
-#     session.pop('user_id')
-#     return {'message': 'logged out'}, 200
-
 
 # @app.route('/change-password', methods=['POST'])
 # def change_password():
@@ -167,6 +161,12 @@ def login():
             # password did not match, send error resp
             return {'message': 'login failed'}, 401
 
+@app.route('/logout', methods=['DELETE'])
+def logout():
+    # delete cookie
+    session.pop('user_id')
+    return redirect(url_for('login'))
+    # return {'message': 'logged out'}, 200
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

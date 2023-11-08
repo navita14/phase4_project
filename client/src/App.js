@@ -1,6 +1,5 @@
 import { createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
 import { Route } from 'react-router-dom';
-import PostPage from "./Components/PostPage"; 
 import Login from "./Components/Login"; 
 import SignUp from "./Components/Signup"; 
 import Logout from "./Components/Logout"; 
