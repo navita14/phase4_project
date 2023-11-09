@@ -1,0 +1,19 @@
+/* Center the "Post" button and the "Submit" button */
+.navbar-post-button,
+.navbar-submit-button {
+  display: block;
+  margin: 0 auto;
+}
+
+/* Position the description input box to the right of the buttons */
+.navbar-description-input {
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px; /* Add some top margin to separate it from the buttons */
+}
+
+/* Center-align text in the "Post" button and the "Submit" button */
+.navbar-post-button,
+.navbar-submit-button {
+  text-align: center;
+}

@@ -1,45 +1,60 @@
 .post-container {
-  width: 30%; /* Set the desired fixed width for the container */
-  height: 60vh; /* Set a fixed height as a percentage of the viewport height */
-  position: fixed; /* Make it a fixed element */
-  top: 50%; /* Place it 50% from the top of the viewport */
-  left: 50%; /* Place it 50% from the left of the viewport */
-  transform: translate(-50%, -50%); /* Center it in the middle */
-  border: 8px solid blue; /* Add a thick blue border */
-  border-radius: 20px; /* Rounded edges */
-  overflow-y: auto; /* Add a vertical scrollbar if needed */
+  width: 30%;
+  height: 60vh;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 8px solid blue;
+  border-radius: 20px;
+  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scrolling */
 }
 
 
 .post-card img {
-  width: 100%; /* Make the image width 100% of the post-card width */
-  border-radius: 10px; /* Rounded edges */
+  width: 100%;
+  border-radius: 10px;
+  transition: transform 0.3s; /* Add a transition for scaling */
+  /* Other styles... */
+  transform: scale(1); /* Normal state, no scaling */
+  z-index: 0;
 }
 
-
+.post-card img:hover {
+  transform: scale(1.1); /* On hover, scale up by 10% (1.1 times) */
+}
 
 .post-username {
-  color: white; /* White text color */
-  text-shadow: 2px 2px 2px black; /* Black text shadow */
-  position: relative; /* Position it relatively within the post-card */
-  display: block; /* Display as a block element */
-  font-size: 12px; /* Adjust the font size as needed */
-  margin-top: -55px; /* Add some top margin for spacing */
+  color: white;
+  text-shadow: 2px 2px 2px black;
+  position: relative;
+  display: block;
+  font-size: 12px;
+  margin-top: -55px;
 }
 
-
 .post-likes {
-  color: white; /* White text color */
-  text-shadow: 2px 2px 2px black; /* Black text shadow */
-  position: fixed; /* Position it relatively within the post-card */
-  display: block; /* Display as a block element */
-  font-size: 12px; /* Adjust the font size as needed */
-  margin-left: 375px; /* Adjust the margin-left value as needed (in pixels) */
-  margin-top: -575px; /* Add some top margin for spacing */
+  color: white;
+  text-shadow: 2px 2px 2px black;
+  position: fixed;
+  display: block;
+  font-size: 12px;
+  margin-left: 260px;
+  z-index: 1;
 }
 
 .post-comments {
-  background-color: lightgrey; /* Light grey background */
-  color: black; /* Black text color */
-  padding: 5px; /* Add some padding for spacing */
+  background-color: lightgrey;
+  color: black;
+  padding: 5px;
 }
+
+.post-description {
+  background-color: lightgrey;
+  color: #333;
+  font-family: "Arial", sans-serif;
+  font-size: 14px;
+  padding: 5px;
+}
+

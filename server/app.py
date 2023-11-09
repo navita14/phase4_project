@@ -72,29 +72,19 @@ def logout():
     session.pop('user_id')
     return redirect(url_for('login'))  # Corrected closing parenthesis
 
+
 @app.route('/posts', methods=['POST'])
 def create_post():
-    description = request.form.get('description')
-    likes = request.form.get('likes')
-    comments = request.form.get('comments')
-    user_id = request.form.get('user_id')
+    data = request.get_json()
 
-    if 'file' not in request.files:
-        return {'error': 'No file uploaded'}, 400
-
-    file = request.files['file']
-
-    if not file:
-        return {'error': 'No file uploaded'}, 400
-
-    if not allowed_file(file.filename):
-        return {'error': 'Invalid file extension'}, 400
-
-    filename = secure_filename(file.filename)
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    description = data.get('description')
+    content = data.get('content')  # Get the content from the request data
+    likes = data.get('likes')
+    comments = data.get('comments')
+    user_id = data.get('user_id')
 
     new_post = Post(
-        content=os.path.join(app.config['UPLOAD_FOLDER'], filename),
+        content=content,
         description=description,
         likes=likes,
         comments=comments,

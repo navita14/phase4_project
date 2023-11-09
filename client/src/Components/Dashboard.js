@@ -45,10 +45,10 @@ export default function Dashboard() {
     <div className="post-container">
       {posts.map((post, index) => (
         <div key={index} className="post-card">
+          <p className="post-likes">♡{post.likes}</p>
           <p><img src={post.content} alt="Post Image" /></p>
           <p className="post-username">{post.user.username}</p>
           <p className="post-description">{post.description}</p>
-          <p className="post-likes">♡{post.likes}</p>
           {/* <p className="post-comments">Comments: {post.comments}</p> */}
         </div>
       ))}
