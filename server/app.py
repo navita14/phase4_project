@@ -3,6 +3,7 @@ from flask_migrate import Migrate
 from models import *
 from flask_cors import CORS
 import os
+from werkzeug.utils import secure_filename
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATABASE = os.environ.get("DB_URI", f"sqlite:///{os.path.join(BASE_DIR, 'app.db')}")
@@ -13,11 +14,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = "Bad_Banana"
 app.json.compact = False
+app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['ALLOWED_EXTENSIONS'] = {'jpg', 'jpeg', 'png'}
 
 db.init_app(app)
 migrate = Migrate(app, db)
 
 excluded_endpoints = ['login', 'signup', 'check_session', 'root']
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 @app.route('/')
 def homepage():
@@ -67,16 +74,35 @@ def logout():
 
 @app.route('/posts', methods=['POST'])
 def create_post():
-    data = request.get_json()
+    description = request.form.get('description')
+    likes = request.form.get('likes')
+    comments = request.form.get('comments')
+    user_id = request.form.get('user_id')
+
+    if 'file' not in request.files:
+        return {'error': 'No file uploaded'}, 400
+
+    file = request.files['file']
+
+    if not file:
+        return {'error': 'No file uploaded'}, 400
+
+    if not allowed_file(file.filename):
+        return {'error': 'Invalid file extension'}, 400
+
+    filename = secure_filename(file.filename)
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
     new_post = Post(
-        content=data.get('content'),
-        description=data.get('description'),
-        likes=data.get('likes'),
-        comments=data.get('comments'),
-        user_id=data.get('user_id')
+        content=os.path.join(app.config['UPLOAD_FOLDER'], filename),
+        description=description,
+        likes=likes,
+        comments=comments,
+        user_id=user_id
     )
     db.session.add(new_post)
     db.session.commit()
+
     return {'message': 'post created'}, 201
 
 if __name__ == '__main__':
