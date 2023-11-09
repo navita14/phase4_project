@@ -1,0 +1,5 @@
+.post-container img {
+    width: 25%; /* Shrink the image by 75% */
+    border-radius: 10px; /* Rounded edges */
+  }
+  
