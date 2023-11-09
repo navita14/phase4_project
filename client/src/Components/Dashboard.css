@@ -1,0 +1,45 @@
+.post-container {
+  width: 30%; /* Set the desired fixed width for the container */
+  height: 60vh; /* Set a fixed height as a percentage of the viewport height */
+  position: fixed; /* Make it a fixed element */
+  top: 50%; /* Place it 50% from the top of the viewport */
+  left: 50%; /* Place it 50% from the left of the viewport */
+  transform: translate(-50%, -50%); /* Center it in the middle */
+  border: 8px solid blue; /* Add a thick blue border */
+  border-radius: 20px; /* Rounded edges */
+  overflow-y: auto; /* Add a vertical scrollbar if needed */
+}
+
+
+.post-card img {
+  width: 100%; /* Make the image width 100% of the post-card width */
+  border-radius: 10px; /* Rounded edges */
+}
+
+
+
+.post-username {
+  color: white; /* White text color */
+  text-shadow: 2px 2px 2px black; /* Black text shadow */
+  position: relative; /* Position it relatively within the post-card */
+  display: block; /* Display as a block element */
+  font-size: 12px; /* Adjust the font size as needed */
+  margin-top: -55px; /* Add some top margin for spacing */
+}
+
+
+.post-likes {
+  color: white; /* White text color */
+  text-shadow: 2px 2px 2px black; /* Black text shadow */
+  position: fixed; /* Position it relatively within the post-card */
+  display: block; /* Display as a block element */
+  font-size: 12px; /* Adjust the font size as needed */
+  margin-left: 375px; /* Adjust the margin-left value as needed (in pixels) */
+  margin-top: -575px; /* Add some top margin for spacing */
+}
+
+.post-comments {
+  background-color: lightgrey; /* Light grey background */
+  color: black; /* Black text color */
+  padding: 5px; /* Add some padding for spacing */
+}

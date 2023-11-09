@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate} from 'react-router-dom';
+import Dashboard from './Dashboard';
+import Navbar from './Navbar';
 
 function Login() {
   const history = useNavigate();
@@ -9,7 +11,7 @@ function Login() {
 
   function handleLogin(e) {
     e.preventDefault(); // Prevent the default form submission
-    console.log(username, password)
+    // console.log(username, password)
 
     // Create an object with the user's email and password
     const userCredentials = {
@@ -23,7 +25,6 @@ function Login() {
     fetch('http://127.0.0.1:5000/login', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userCredentials),
@@ -38,7 +39,7 @@ function Login() {
     .then((data) => {
       // Check the 'message' property in the server response
       if (data.message === 'login success') {
-        history("/dashboard");
+        history("/dashboard", { state: { username: userCredentials.username } });
       } else {
         // Handle login failure
         console.log('Login failed');
