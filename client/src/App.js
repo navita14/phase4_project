@@ -4,6 +4,7 @@ import Login from "./Components/Login";
 import SignUp from "./Components/Signup"; 
 import Logout from "./Components/Logout"; 
 import Dashboard from './Components/Dashboard';
+import Navbar from './Components/Navbar';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
