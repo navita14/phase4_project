@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify, session, flash, redirect, url_for
 from flask_migrate import Migrate
 from models import *
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
+
 # from flask_restful import Api, Resource
 import os
 # from flask_login import LoginManager
@@ -19,12 +21,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = "Bad_Banana"
 app.json.compact = False
+UPLOAD_FOLDER = '/post_data/Pictures/'
+ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'gif'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 db.init_app(app)
 migrate = Migrate(app, db)
 
 excluded_endpoints = ['login', 'signup', 'check_session', 'root']
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # # @app.route('/dashboard')
 # # @login_required
@@ -124,7 +132,7 @@ def get_users():
     body = [user.to_dict() for user in users]
     return body, 200
 
-@app.route('/posts', methods=['GET'])
+@app.route('/post', methods=['GET'])
 def get_post():
     posts = Post.query.all()
     body = [post.to_dict() for post in posts]
@@ -167,6 +175,40 @@ def logout():
     session.pop('user_id')
     return redirect(url_for('login'))
     # return {'message': 'logged out'}, 200
+
+    
+
+@app.route('/post', methods=['POST'])
+def upload_image():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'}, 400)
+
+    file = request.files['file']
+    
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}, 400)
+
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        description = request.form.get('description', '')
+        likes = request.form.get('likes', 0)
+        username = request.form.get('username', 'username')  # You should replace this with user authentication
+
+        try:
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            post = Post(filename=filename, description=description, likes=likes, username=username)
+            db.session.add(post)
+            db.session.commit()
+
+            return jsonify({'message': 'File uploaded successfully', 'post': post.to_dict()}, 200)
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'error': 'Failed to upload file. Please try again later.'}, 500)
+    else:
+        return jsonify({'error': 'Invalid file type'}, 400)
+
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

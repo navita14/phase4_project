@@ -54,7 +54,7 @@ def populate_database():
                 _password_hash="hashed_password_for_epsteinshomey",
                 # permission_level=1,
             ),
-                        User(
+            User(
                 email_address="Hanan@flatironschool.com",
                 username="H as in Harry, A as in Apple, N as in Nancy, A as in Apple, N as in Nancy",
                 full_name="Hanan Hammouda",
@@ -63,16 +63,22 @@ def populate_database():
             ),
         ]
 
-        ## Dummy post data
+               ## Dummy post data
         dummy_posts = [
             Post(
-                content="JPG URL", ## I added a folder called post_data and added an image. We'll have to think of a way to link this. Json is NOT the way to go.
+                content="/post_data/Pictures/The_Gang.jpg", ## I added a folder called post_data and added an image. We'll have to think of a way to link this. Json is NOT the way to go.
                 description="My gang, Flatiron REPRESENT!",
                 likes=10,
                 comments="Comment 1 for post 1",
                 user_id=2,  ## User 2's ID -- This should link to me -- Dommo
             ),
-            ## If you have anything else to add, do it here!
+            Post(
+                content="/post_data/Pictures/20231013_164610.jpg", ## I added a folder called post_data and added an image. We'll have to think of a way to link this. Json is NOT the way to go.
+                description="Me and Nav!",
+                likes=5,
+                comments="cool",
+                user_id=7,  ## User 2's ID -- This should link to me -- Dommo
+            ),
         ]
 
         for user in dummy_users:
